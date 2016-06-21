@@ -21,7 +21,7 @@ class TodoTests(unittest.TestCase):
 
 	def test_todo_list_items_attribute_type(self):
 		test_list = todo_list.ToDoList('My List', 'A list containing test to do items', [todo_item.ToDoItem('to do item 1')])
-		self.assertEqual(type(test_list.todo_items), type(todo_item.ToDoItem))
+		self.assertEqual(type(test_list.todo_items[0]), type(todo_item.ToDoItem('')))
 
 	def test_adding_of_item_with_none_string_content(self):
 		test_list = todo_list.ToDoList('My List', 'A list containing test to do items', [todo_item.ToDoItem('to do item 1')])
