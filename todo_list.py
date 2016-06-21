@@ -6,6 +6,9 @@ class ToDoList(object):
 		self.todo_items = todo_items
 
 	def add_todo(self, content, complete = False, *args):
+		if type(complete) != type(True):
+			self.complete = False
+			return
 		item = todo_item.ToDoItem(content, complete, *args)
 		self.todo_items.append(item)
 
