@@ -17,3 +17,11 @@ class ToDoList(object):
 
 	def delete_item(self, index):
 		del self.todo_items[index]
+
+	def percentage_completed(self):
+		completed_items = 0
+		for item in self.todo_items:
+			if item.complete:
+				completed_items += 1
+		percentage = 100 * (completed_items/len(self.todo_items))
+		return percentage
