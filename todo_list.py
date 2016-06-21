@@ -6,10 +6,12 @@ class ToDoList(object):
 		self.todo_items = todo_items
 
 	def add_todo(self, content, complete = False, *args):
-		todo_item = todo_item(content, complete, *args)
-		self.todo_items.append(todo_item)
+		item = todo_item.ToDoItem(content, complete, *args)
+		self.todo_items.append(item)
 
 	def finish_item(self, index):
+		if index >= len(self.todo_items) or index < 0:
+			return 'That to do item does not exist'
 		self.todo_items[index] = True
 
 	def edit_item(self, index, content):
