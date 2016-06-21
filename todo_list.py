@@ -9,6 +9,8 @@ class ToDoList(object):
 		if type(complete) != type(True):
 			self.complete = False
 			return
+		if type(content) != type(''):
+			return 'Enter valid content'
 		item = todo_item.ToDoItem(content, complete, *args)
 		self.todo_items.append(item)
 

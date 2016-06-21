@@ -25,8 +25,7 @@ class TodoTests(unittest.TestCase):
 
 	def test_adding_of_item_with_none_string_content(self):
 		test_list = todo_list.ToDoList('My List', 'A list containing test to do items', [todo_item.ToDoItem('to do item 1')])
-		test_list.add_todo(23)
-		self.assertEqual(test_list.todo_items[-1], 'Enter valid content')
+		self.assertEqual(test_list.add_todo(23), 'Enter valid content')
 
 	def test_adding_of_item_with_non_boolean_complete(self):
 		test_list = todo_list.ToDoList('My List', 'A list containing test to do items', [todo_item.ToDoItem('to do item 1')])
