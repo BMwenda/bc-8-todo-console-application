@@ -35,4 +35,4 @@ class TodoTests(unittest.TestCase):
 
 	def test_finish_item_out_of_range_index(self):
 		test_list = todo_list.ToDoList('My List', 'A list containing test to do items', [todo_item.ToDoItem('to do item 1')])
-		(test_list.finish_item(5), 'That to do item does not exist')
+		self.assertEqual(test_list.finish_item(5), 'That to do item does not exist')
