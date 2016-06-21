@@ -36,3 +36,11 @@ class TodoTests(unittest.TestCase):
 	def test_finish_item_out_of_range_index(self):
 		test_list = todo_list.ToDoList('My List', 'A list containing test to do items', [todo_item.ToDoItem('to do item 1')])
 		self.assertEqual(test_list.finish_item(5), 'That to do item does not exist')
+
+	def test_todo_item_with_none_string_content(self):
+		test_item = todo_item.ToDoItem(23)
+		self.assertEqual(test_item.content, 'Invalid content')
+
+	def test_none_boolean_test_item_complete_attribute(self):
+		test_item = todo_item.ToDoItem('to do item 1', 'silly boolean')
+		self.assertEqual(test_item.complete, False)
