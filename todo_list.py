@@ -2,7 +2,10 @@ import todo_item
 class ToDoList(object):
 	def __init__(self, name, description, todo_items):
 		self.name = name
-		self.description = description
+		if type(description) != type(''):
+			self.description = 'Enter valid description'
+		else:
+			self.description = description
 		self.todo_items = todo_items
 
 	def add_todo(self, content, complete = False, *args):
