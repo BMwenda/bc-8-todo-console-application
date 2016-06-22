@@ -17,9 +17,9 @@ class ToDoList(object):
 		for item in self.todo_items:
 			item.save_item(self.name)
 
-	def add_todo(self, content, complete = False, *args):
-		if type(complete) != type(True):
-			self.complete = False
+	def add_todo(self, content, complete = 0, *args):
+		if type(complete) != type(1):
+			self.complete = 0
 			return
 		if type(content) != type(''):
 			return 'Enter valid content'
@@ -29,7 +29,13 @@ class ToDoList(object):
 	def finish_item(self, index):
 		if index >= len(self.todo_items) or index < 0:
 			return 'That to do item does not exist'
-		self.todo_items[index] = True
+		self.todo_items[index].complete = 1
+		conn = sqlite3.connect('crollodb.db')
+		c = conn.cursor()
+		SQL = "UPDATE todoitem SET COMPLETE = 1 WHERE LISTNAME = '{0}' AND CONTENT = '{1}'"
+		c.execute(SQL.format(self.name, self.todo_items[index].content))
+		conn.commit
+		conn.close()
 
 	def edit_item(self, index, content):
 		self.todo_items[index] = content

@@ -2,14 +2,14 @@ import todo_item
 import sqlite3
 class ToDoItem(object):
 	"""docstring for ToDoItem"""
-	def __init__(self, content = '1st item', complete = False, *args):
+	def __init__(self, content = '1st item', complete = 0, *args):
 		if type(content) != type(''):
 			self.content = 'Invalid content'
 		else:
 			self.content = content
 			
-		if type(complete) != type(True):
-			self.complete = False
+		if type(complete) != type(1):
+			self.complete = 0
 		else:
 			self.complete = complete
 		self.args = args
@@ -29,3 +29,5 @@ class ToDoItem(object):
 		c.execute(SQL)
 		conn.commit()
 		conn.close()
+
+		
