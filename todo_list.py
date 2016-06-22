@@ -14,7 +14,8 @@ class ToDoList(object):
 			self.description = description
 		self.todo_items = todo_items
 		self.save_list()
-
+		for item in self.todo_items:
+			item.save_item(self.name)
 
 	def add_todo(self, content, complete = False, *args):
 		if type(complete) != type(True):
@@ -57,8 +58,8 @@ class ToDoList(object):
 		c = conn.cursor()
 		if len(self.todo_items) > 0:
 			for item in self.todo_items:
-				SQL = "DELETE FROM todoitem WHERE CONTENT = {0}".format(item)
-				c.execute(SQL)
-			SQL = "DELETE FROM todolist WHERE NAME = {0}".format(self.name)
+				item.delete_item(self.name)
+		SQL = "DELETE FROM todolist WHERE NAME = '{0}'".format(self.name)
+		c.execute(SQL)
 		conn.commit()
 		conn.close()

@@ -21,4 +21,11 @@ class ToDoItem(object):
 		c.execute(SQL.format(self.content, self.complete, listname))
 		conn.commit()
 		conn.close()
-		
+
+	def delete_item(self, listname):
+		conn = sqlite3.connect('crollodb.db')
+		c = conn.cursor()
+		SQL = "DELETE FROM todoitem WHERE CONTENT = '{0}' AND LISTNAME = '{1}'".format(self.content, listname)
+		c.execute(SQL)
+		conn.commit()
+		conn.close()
