@@ -1,4 +1,7 @@
 import todo_item
+import sqlite3
+
+
 class ToDoList(object):
 	def __init__(self, name, description, todo_items):
 		if type(name) != type(''):
@@ -38,3 +41,11 @@ class ToDoList(object):
 				completed_items += 1
 		percentage = 100 * (completed_items/len(self.todo_items))
 		return percentage
+
+	def save_list(self):
+		conn = sqlite3.connect('crollodb.db')
+		c = conn.cursor()
+		SQL = "INSERT INTO todolist (NAME, DESCRIPTION) VALUES ('{0}', '{1}')"
+		c.execute(SQL.format(self.name, self.description))
+		conn.commit()
+		conn.close()
