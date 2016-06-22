@@ -1,6 +1,6 @@
 class ToDoItem(object):
 	"""docstring for ToDoItem"""
-	def __init__(self, content, complete = False, *args):
+	def __init__(self, content = '1st item', complete = False, *args):
 		if type(content) != type(''):
 			self.content = 'Invalid content'
 		else:

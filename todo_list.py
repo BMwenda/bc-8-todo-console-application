@@ -3,7 +3,7 @@ import sqlite3
 
 
 class ToDoList(object):
-	def __init__(self, name, description, todo_items):
+	def __init__(self, name, description, todo_items = [todo_item.ToDoItem()]):
 		if type(name) != type(''):
 			self.name = 'Enter valid name'
 		else:
