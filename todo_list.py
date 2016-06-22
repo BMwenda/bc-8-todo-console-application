@@ -13,9 +13,6 @@ class ToDoList(object):
 		else:
 			self.description = description
 		self.todo_items = todo_items
-		self.save_list()
-		for item in self.todo_items:
-			item.save_item(self.name)
 
 	def add_todo(self, content, complete = 0, *args):
 		if type(complete) != type(1):
@@ -34,7 +31,7 @@ class ToDoList(object):
 		c = conn.cursor()
 		SQL = "UPDATE todoitem SET COMPLETE = 1 WHERE LISTNAME = '{0}' AND CONTENT = '{1}'"
 		c.execute(SQL.format(self.name, self.todo_items[index].content))
-		conn.commit
+		conn.commit()
 		conn.close()
 
 	def edit_item(self, index, content):
@@ -54,6 +51,8 @@ class ToDoList(object):
 	def save_list(self):
 		conn = sqlite3.connect('crollodb.db')
 		c = conn.cursor()
+		for item in self.todo_items:
+			item.save_item(self.name)
 		SQL = "INSERT INTO todolist (NAME, DESCRIPTION) VALUES ('{0}', '{1}')"
 		c.execute(SQL.format(self.name, self.description))
 		conn.commit()

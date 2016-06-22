@@ -25,6 +25,7 @@ import cmd
 from termcolor import cprint, colored
 from pyfiglet import figlet_format
 from docopt import docopt, DocoptExit
+import sqlite3
 import todo_item
 import todo_list
 #from db.database import Database
@@ -79,3 +80,18 @@ if __name__ == '__main__':
 
 	if arguments['create_todo']:
 		mylist = todo_list.ToDoList(arguments['<name>'], arguments['<description>'])
+		mylist.save_list()
+		print('list added')
+
+	if arguments['delete_todo']:
+		conn = sqlite3.connect('crollodb.db')
+		c = conn.cursor()
+		SQL = "SELECT * from TODOLIST WHERE name = '{0}'".format(arguments['<name>'])
+		resset = c.execute(SQL)
+		if resset == 0:
+			print('no to do list going by that name')
+		else:
+			c.execute("DELETE FROM TODOLIST WHERE name = '{0}';".format(arguments['<name>']))
+			c.execute("DELETE FROM TODOITEM WHERE listname = '{0}';".format(arguments['<name>']))
+		conn.commit()
+		conn.close()
