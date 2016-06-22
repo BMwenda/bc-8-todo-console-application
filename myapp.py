@@ -1,6 +1,7 @@
 """Usage:
-	myapp.py create_todo <name> [ --desc=description]
+	myapp.py create_todo <name> <description>
 	myapp.py open_todo <name>
+	myapp.py delete_todo <name>
 	myapp.py add_item <content> [--completed=complete]
 	myapp.py finish_item (<number>|<content>)
 	myapp.py list (todos|items (<todo-name>|<todo-id>))
@@ -30,7 +31,7 @@ import todo_list
 from colorama import init
 #init(strip=not sys.stdout.isatty())
 spacer = " "
-border = colored("*" * 5, 'red').center(80)
+border = colored("*" * 5, 'red')
 
 
 
@@ -41,26 +42,26 @@ class Interactive (cmd.Cmd):
 	def introduction():
 		print(border)
 		print(spacer)
-		print("WELCOME TO CROLLO!".center(70))
+		print("WELCOME TO CROLLO!")
 		print(spacer)
-		print("TO DO LIST CREATING CONSOLE APPLICATION:".center(70))
+		print("TO DO LIST CREATING CONSOLE APPLICATION:")
 		print(spacer)
-		print("1. create_todo <name> [ --desc=description]".center(70))
-		print("2. add_item <content> [--completed=complete]".center(70))
-		print("3. open_todo <name>".center(70))
-		print("4. finish_item (<number>|<content>)".center(70))
-		print("5. list (todos|items (<todo-name>|<todo-id>))".center(70))
+		print("1. create_todo <name> <description>")
+		print("2. add_item <content> [--completed=complete]")
+		print("3. open_todo <name>")
+		print("4. finish_item (<number>|<content>)")
+		print("5. list (todos|items (<todo-name>|<todo-id>))")
 		print(spacer)
-		print("OTHER COMMANDS:".center(70))
+		print("OTHER COMMANDS:")
 		print(spacer)
-		print("1. help".center(70))
-		print("2. quit".center(70))
+		print("1. help")
+		print("2. quit")
 		print(spacer)
 		print(border)
 
 
 	intro = introduction()
-	prompt = "(crollo) "
+	prompt = "(crollo)"
 
 	def do_quit(self, args):
 		exit()
@@ -71,5 +72,10 @@ class Interactive (cmd.Cmd):
 #     	Interactive().cmdloop()
 
 if __name__ == '__main__':
-    arguments  = docopt(__doc__,  sys.argv[1:], version = 'myapp 1.0.1')
-    Interactive().cmdloop()
+	arguments  = docopt(__doc__,  sys.argv[1:], version = 'myapp 1.0.1')
+	print(arguments)
+	if arguments['--interactive']:
+		Interactive().cmdloop()
+
+	if arguments['create_todo']:
+		mylist = todo_list.ToDoList(arguments['<name>'], arguments['<description>'])
