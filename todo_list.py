@@ -13,6 +13,8 @@ class ToDoList(object):
 		else:
 			self.description = description
 		self.todo_items = todo_items
+		self.save_list()
+
 
 	def add_todo(self, content, complete = False, *args):
 		if type(complete) != type(True):
@@ -47,5 +49,16 @@ class ToDoList(object):
 		c = conn.cursor()
 		SQL = "INSERT INTO todolist (NAME, DESCRIPTION) VALUES ('{0}', '{1}')"
 		c.execute(SQL.format(self.name, self.description))
+		conn.commit()
+		conn.close()
+
+	def delete_list(self):
+		conn = sqlite3.connect('crollodb.db')
+		c = conn.cursor()
+		if len(self.todo_items) > 0:
+			for item in self.todo_items:
+				SQL = "DELETE FROM todoitem WHERE CONTENT = {0}".format(item)
+				c.execute(SQL)
+			SQL = "DELETE FROM todolist WHERE NAME = {0}".format(self.name)
 		conn.commit()
 		conn.close()
