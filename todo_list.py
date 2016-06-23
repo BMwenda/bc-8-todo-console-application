@@ -33,9 +33,11 @@ class ToDoList(object):
 		conn.commit()
 
 	def delete_list(self):
-		if len(self.todo_items) > 0:
-			for item in self.todo_items:
-				item.delete_item(self.name)
 		SQL = "DELETE FROM todolist WHERE NAME = '{0}'".format(self.name)
+		todo_item.ToDoItem().delete_item()
 		c.execute(SQL)
 		conn.commit()
+
+	def get_todos(self):
+		SQL = "SELECT NAME, DESCRIPTION FROM todolist"
+		return c.execute(SQL)
