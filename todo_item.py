@@ -1,8 +1,8 @@
-import todo_item
-import sqlite3
+from database import conn, c
+
 class ToDoItem(object):
 	"""docstring for ToDoItem"""
-	def __init__(self, content = '1st item', complete = 0, *args):
+	def __init__(self, content = '1st item', complete = 0):
 		if type(content) != type(''):
 			self.content = 'Invalid content'
 		else:
@@ -15,19 +15,18 @@ class ToDoItem(object):
 		self.args = args
 
 	def save_item(self, listname):
-		conn = sqlite3.connect('crollodb.db')
-		c = conn.cursor()
 		SQL = "INSERT INTO todoitem (CONTENT, COMPLETE, LISTNAME) VALUES ('{0}', '{1}', '{2}')"
 		c.execute(SQL.format(self.content, self.complete, listname))
 		conn.commit()
-		conn.close()
 
 	def delete_item(self, listname):
-		conn = sqlite3.connect('crollodb.db')
-		c = conn.cursor()
 		SQL = "DELETE FROM todoitem WHERE CONTENT = '{0}' AND LISTNAME = '{1}'".format(self.content, listname)
 		c.execute(SQL)
 		conn.commit()
-		conn.close()
 
+	def update_item(self, content):
+		pass
+
+	def finish_item(self):
+		self.complete = 1
 		
