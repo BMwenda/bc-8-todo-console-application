@@ -7,12 +7,18 @@ class ToDoItem(object):
 		self.complete = complete
 
 	def save_item(self, listname):
-		SQL = "INSERT INTO todoitem (CONTENT, COMPLETE, LISTNAME) VALUES ('{0}', '{1}', '{2}')"
-		c2.execute(SQL.format(self.content, self.complete, listname))
+		SQL = "INSERT INTO todoitem (CONTENT, COMPLETE, LISTNAME) VALUES ('{0}', '{1}', '{2}')"\
+		.format(self.content, self.complete, listname)
+		c2.execute(SQL)
 		conn2.commit()
 
 	def delete_item(self, listname):
 		SQL = "DELETE FROM todoitem WHERE CONTENT = '{0}' AND LISTNAME = '{1}'".format(self.content, listname)
+		c2.execute(SQL)
+		conn2.commit()
+
+	def delete_all(self, listname):
+		SQL = "DELETE FROM todoitem WHERE LISTNAME = '{0}'".format(listname)
 		c2.execute(SQL)
 		conn2.commit()
 
