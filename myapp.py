@@ -28,9 +28,7 @@ from docopt import docopt, DocoptExit
 import sqlite3
 import todo_item
 import todo_list
-#from db.database import Database
 from colorama import init
-#init(strip=not sys.stdout.isatty())
 spacer = " "
 border = colored("*" * 5, 'red')
 
@@ -38,7 +36,7 @@ border = colored("*" * 5, 'red')
 
 class Interactive (cmd.Cmd):
 
-	cprint(figlet_format('CROLLO APPLICATION'), 'red', attrs=['bold'])
+	cprint(figlet_format('CROLLO APPLICATION'), 'red', attrs = ['bold'])
 
 	def introduction():
 		print(border)
@@ -52,6 +50,7 @@ class Interactive (cmd.Cmd):
 		print("3. open_todo <name>")
 		print("4. finish_item (<number>|<content>)")
 		print("5. list (todos|items (<todo-name>|<todo-id>))")
+		print("6. delete_todo <name>")
 		print(spacer)
 		print("OTHER COMMANDS:")
 		print(spacer)
@@ -67,21 +66,28 @@ class Interactive (cmd.Cmd):
 	def do_quit(self, args):
 		exit()
 
+	def do_create_todo(self, arguments):
+		argslist = arguments.split(' ')
+		mylist = todo_list.ToDoList(argslist[0], argslist[1])
+		mylist.save_list()
+		cprint('new list and a default item added', 'green')
 
-# def handle(argsdict):
-#     if 'interactive' in argsdict:
-#     	Interactive().cmdloop()
+	def do_delete_todo(self, arguments):
+		argslist = arguments.split(' ')
+		mylist = todo_list.ToDoList(argslist[0])
+		mylist.delete_list()
+		cprint('list and its items deleted', 'green')
 
 if __name__ == '__main__':
 	arguments  = docopt(__doc__,  sys.argv[1:], version = 'myapp 1.0.1')
-	print(arguments)
 	if arguments['--interactive']:
 		Interactive().cmdloop()
 
 	if arguments['create_todo']:
 		mylist = todo_list.ToDoList(arguments['<name>'], arguments['<description>'])
 		mylist.save_list()
-		print('list added')
+		cprint('list added', 'green')
+		cprint('1st item added by default', 'green')
 
 	if arguments['delete_todo']:
 		conn = sqlite3.connect('crollodb.db')
@@ -93,5 +99,20 @@ if __name__ == '__main__':
 		else:
 			c.execute("DELETE FROM TODOLIST WHERE name = '{0}';".format(arguments['<name>']))
 			c.execute("DELETE FROM TODOITEM WHERE listname = '{0}';".format(arguments['<name>']))
+		cprint('list and its items deleted', 'green')
 		conn.commit()
 		conn.close()
+
+	if arguments['list'] and arguments['todos']:
+		conn = sqlite3.connect('crollodb.db')
+		c = conn.cursor()
+		SQL = "SELECT NAME, DESCRIPTION from TODOLIST"
+		for todo in c.execute(SQL):
+			print("{0}, {1}".format(todo[0], todo[1]))
+			SQL2 = "SELECT CONTENT, COMPLETE, LISTNAME from TODOITEM WHERE listname = '{0}'".format(todo[0])
+			c2 = conn.cursor()
+			for item in c2.execute(SQL2):
+				print("---------{0}, {1}, {2}".format(item[0], item[1], item[2]))
+		conn.close()
+
+
