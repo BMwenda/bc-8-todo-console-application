@@ -93,6 +93,36 @@ if __name__ == '__main__':
 		else:
 			cprint('error specified todo list does not exist', 'red')
 
+	if arguments['open_todo']:
+		resset = todo_item.ToDoItem().get_items(arguments['<name>'])
+		print("list '{0}' todo items:".format(arguments['<name>']))		
+		datalist =[]
+		item_no = 0
+		for row in resset:
+			if row[1] == 0:
+				color = 'red'
+			else:
+				color = 'green'
+			datalist.append(row)
+			cprint("{0}---------'{1}', '{2}'".format(item_no, row[0], row[1]), color)
+			item_no += 1
+		while True:
+			action = input('"quit" to quit or "finish"/"unfinish" <item-no> to mark as complete/incomplete : ').split(' ')
+			if action == '':
+				continue
+			if action[0] == 'quit':
+				print('bye :) ')
+				break
+			elif action[0] == 'finish':
+				todo_item.ToDoItem('').finish_item(datalist[int(list(action)[1])][0], arguments['<name>'], 1)
+				cprint('item marked as done', 'green')
+
+			elif action[0] == 'unfinish':
+				todo_item.ToDoItem('').finish_item(datalist[int(list(action)[1])][0], arguments['<name>'], 0)
+				cprint('item marked as undone', 'green')
+
+
+
 
 
 
