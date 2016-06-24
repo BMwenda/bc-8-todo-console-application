@@ -26,34 +26,6 @@ from docopt import docopt, DocoptExit
 import todo_item
 import todo_list
 
-spacer = " "
-border = colored("*" * 5, 'red')
-
-def introduction():
-	os.system('clear')
-	print(colored("*" * 167, 'red').center(100))
-	cprint(figlet_format('CROLLO APPLICATION'), 'red', attrs = ['bold'])
-	print(colored("*" * 167, 'red').center(100))
-	print(border)
-	print(spacer)
-	print("WELCOME TO CROLLO!")
-	print(spacer)
-	print("TO DO LIST CREATING CONSOLE APPLICATION:")
-	print(spacer)
-	print("1. create_todo <name> <description>")
-	print("2. add_item <content> <name>")
-	print("3. open_todo <name>")
-	print("4. finish_item (<number>|<content>)")
-	print("5. list (todos|items <todo-name>)")
-	print("6. delete_todo <name>")
-	print(spacer)
-	print("OTHER COMMANDS:")
-	print(spacer)
-	print("1. help")
-	print("2. quit")
-	print(spacer)
-	print(border)
-
 if __name__ == '__main__':
 	arguments  = docopt(__doc__,  sys.argv[1:], version = 'crollo 1.0.1')
 
