@@ -41,11 +41,15 @@ if __name__ == '__main__':
 
 	if arguments['list'] and arguments['todos']:
 		for todo in todo_list.ToDoList('').get_todos():
-			print("{0}, {1}".format(todo[0], todo[1]))
-
+			print("{0} || {1}:".format(todo[0], todo[1]))
+			print('=' * 90)
 			for item in todo_item.ToDoItem().get_items(todo[0]):
-				cprint("---------{0}, {1}".format(item[0], item[1]), 'red')
-
+				if item[1] == 1:
+					color = 'green'
+				else:
+					color = 'red'
+				cprint("---------{0}, {1}".format(item[0], item[1]), color)
+				print('=' * 90)
 	if arguments['list'] and arguments['items']:
 		resset = todo_item.ToDoItem().get_items(arguments['<todo-name>'])
 		print("list '{0}' todo items:".format(arguments['<todo-name>']))
