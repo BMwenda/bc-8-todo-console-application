@@ -7,8 +7,6 @@ See usage below:
 # Crollo To Do Console Application
 A Python console application for organizing of to do lists with various to do items.
 
-![Screen shot](https://github.com/andela-mnzomo/amity-space-allocation/blob/master/screenshot.jpg)
-
 ## Installation
 Clone the repo from GitHub:
 ```
