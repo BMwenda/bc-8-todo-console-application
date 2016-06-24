@@ -34,10 +34,16 @@ class ToDoList(object):
 
 	def delete_list(self):
 		SQL = "DELETE FROM todolist WHERE NAME = '{0}'".format(self.name)
-		todo_item.ToDoItem().delete_item()
+		todo_item.ToDoItem('').delete_all(self.name)
 		c.execute(SQL)
 		conn.commit()
 
 	def get_todos(self):
 		SQL = "SELECT NAME, DESCRIPTION FROM todolist"
 		return c.execute(SQL)
+
+	def todo_exists(self):
+		SQL = "SELECT NAME, DESCRIPTION FROM todolist WHERE NAME = '{0}'".format(self.name)
+		if len(c.execute(SQL).fetchall()) > 0:
+			return True
+		return False
