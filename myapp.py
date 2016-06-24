@@ -3,7 +3,6 @@
 	myapp.py open_todo <name>
 	myapp.py delete_todo <name>
 	myapp.py add_item <content> <name>
-	myapp.py finish_item (<number>|<content>)
 	myapp.py list (todos|items <todo-name>)
 	myapp.py quit
 
@@ -11,10 +10,10 @@ Options:
 	-h --help         Show this screen
 	--version         Show version
 commands:
-	create
-	open
-	add
-	finish
+	create_todo
+	open_todo
+	delete_todo
+	add_item
 	list
 	quit
 """
@@ -56,7 +55,7 @@ def introduction():
 	print(border)
 
 if __name__ == '__main__':
-	arguments  = docopt(__doc__,  sys.argv[1:], version = 'myapp 1.0.1')
+	arguments  = docopt(__doc__,  sys.argv[1:], version = 'crollo 1.0.1')
 
 	if arguments['create_todo']:
 		mylist = todo_list.ToDoList(arguments['<name>'], arguments['<description>'])
@@ -69,36 +68,32 @@ if __name__ == '__main__':
 		mylist.delete_list()
 
 	if arguments['list'] and arguments['todos']:
-		for todo in todo_list.ToDoList().get_todos():
+		for todo in todo_list.ToDoList('').get_todos():
 			print("{0}, {1}".format(todo[0], todo[1]))
 
-			for item in todo_item.ToDoItem().get_items:
+			for item in todo_item.ToDoItem().get_items(todo[0]):
 				cprint("---------{0}, {1}".format(item[0], item[1]), 'red')
 
 	if arguments['list'] and arguments['items']:
-		conn = sqlite3.connect('crollodb.db')
-		c = conn.cursor()
-		SQL = "SELECT content, complete, listname FROM TODOITEM WHERE listname = '{0}'".format(arguments['<todo-name>'])
-		resset = c.execute(SQL)
+		resset = todo_item.ToDoItem().get_items(arguments['<todo-name>'])
 		print("list '{0}' todo items:".format(arguments['<todo-name>']))
 
 		for row in resset:
 			if row[1] == 0:
 				color = 'red'
-
 			else:
 				color = 'green'
-			cprint("---------'{0}', '{1}', '{2}'".format(row[0], row[1], row[2]), color)
-		conn.close()
+
+			cprint("---------'{0}', '{1}'".format(row[0], row[1]), color)
 
 	if arguments['add_item']:
-		SQL = "INSERT INTO todoitem (CONTENT, COMPLETE, LISTNAME) VALUES ('{0}', 0, '{1}')".format(arguments['<content>'], arguments['<name>'])
-		conn = sqlite3.connect('crollodb.db')
-		c = conn.cursor()
-		c.execute(SQL)
-		conn.commit()
-		conn.close()
-		cprint('todo added', 'green')
+		if todo_list.ToDoList(arguments['<name>']).todo_exists():
+			todo_item.ToDoItem(arguments['<content>'], 0).save_item(arguments['<name>'])
+			cprint('todo added', 'green')
+		else:
+			cprint('error specified todo list does not exist', 'red')
+
+
 
 
 
