@@ -29,6 +29,8 @@ class ToDoItem(object):
 	def edit_item(self, content):
 		self.content = content
 
-	def finish_item(self):
+	def finish_item(self, content, listname, num):
 		self.complete = 1
-		
+		SQL = "UPDATE todoitem SET COMPLETE = {0} WHERE CONTENT = '{1}' AND LISTNAME = '{2}'".format(num, content, listname);
+		c2.execute(SQL)
+		conn2.commit()
